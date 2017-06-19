@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__="Even"
 #编写orm模块
+#ORM（Object-Relational Mapping），作用是：把关系数据库的表结构映射到对象上。
 #一旦决定使用异步，则系统每一层都必须是异步
 import asyncio, logging
 import aiomysql
@@ -19,7 +20,7 @@ async def create_pool(loop, **kw):
         port=kw.get('port', 3306),
         user=kw['user'],
         password=kw['password'],
-        db=kw['test'],
+        db=kw['db'],
         charset=kw.get('charset', 'utf8'),
         autocommit=kw.get('autocommit', True),
         maxsize=kw.get('maxsize', 10),
@@ -54,6 +55,7 @@ async def execute(sql, args, autocommit=True):
             await conn.begin()
         try:
             async with conn.cursor(aiomysql.DictCursor) as cur:
+                print('==================sql:',sql.replace('?', '%s'),'===args:',args)
                 await cur.execute(sql.replace('?', '%s'), args)
                 affected = cur.rowcount
             if not autocommit:
