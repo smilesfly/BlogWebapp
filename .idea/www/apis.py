@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-__author__ = 'Michael Liao'
-
+__author__ = 'Even Chen'
 '''
 JSON API definition.
 '''
 import json, logging, inspect, functools
-
 
 class APIError(Exception):
     '''
